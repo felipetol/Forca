@@ -8,7 +8,7 @@ public class Jogo {
         String palavra = sc.nextLine().toLowerCase();
         int numeroCaracteres = palavra.length();
         
-        String jogo[][] = new String [6][4 + numeroCaracteres];
+        String[][] jogo = new String [6][4 + numeroCaracteres];
         
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 4 + numeroCaracteres; j++) {
@@ -26,15 +26,16 @@ public class Jogo {
         jogo[1][4] = "*";
         jogo[2][4] = "|";
         
-        for (int i = 3; i < palavra.length() + 3; i++) {
+        for (int i = 3; i < numeroCaracteres + 3; i++) {
         	jogo[5][i] = "_ ";
         }
         
         int tentativas = 10;
         boolean acabouJogo = false;
-        boolean venceu = false;
 
         while (!acabouJogo) {
+        	
+        	System.out.printf("\nVocê tem %d tentativas", tentativas);
         	
             for (int i = 0; i < 6; i++) {
                 System.out.println();
@@ -43,16 +44,14 @@ public class Jogo {
                 }
             }
             
-            System.out.println();
-            System.out.printf("\nVocê tem %d tentativas\n", tentativas);
-            System.out.print("Insira um chute: ");
+            System.out.print("\nInsira um chute: ");
             String chuteString = sc.nextLine().toLowerCase();
             char chute = chuteString.charAt(0);
             
             if (palavra.contains(String.valueOf(chute))) {
-            	for (int i = 0; i < palavra.length(); i++) {
+            	for (int i = 0; i < numeroCaracteres; i++) {
                     if(chute == palavra.charAt(i)) {
-                        jogo[5][i + 3] = String.valueOf(chute);
+                        jogo[5][i + 3] = String.valueOf(chute + " ");
                     }
                 }
             } else {
@@ -60,8 +59,8 @@ public class Jogo {
             }
             
             String palavraEncontrada = "";
-            for(int i = 3; i < palavra.length() + 3; i++) {
-            	palavraEncontrada = palavraEncontrada + jogo[5][i];
+            for(int i = 3; i < numeroCaracteres + 3; i++) {
+            	palavraEncontrada += jogo[5][i];
             }
             
             if (!palavraEncontrada.contains("_")) {
@@ -72,18 +71,12 @@ public class Jogo {
                     }
                 }
             	acabouJogo = true;
-            	venceu = true;
+            	System.out.println("\n\nVocê acertou a resposta. Parabéns!");
             } else if (tentativas == 0) {
             	acabouJogo = true;
+            	System.out.println("\n\nAcabaram suas tentativas. Você perdeu. A palavra era: " + palavra);
             }
         }
-        
-        if (venceu) {
-        	System.out.println("\n\nParabéns");
-        } else {
-        	System.out.println("\n\nVocê perdeu");
-        }
-        
         sc.close();
     }
 }
