@@ -30,12 +30,24 @@ public class Jogo {
         	jogo[5][i] = "_ ";
         }
         
+        
+        String caracteresRepetidos[] = new String[26];
+        for (int i = 0; i < caracteresRepetidos.length; i++) {
+			caracteresRepetidos[i] = "";
+		}
+        
         int tentativas = 10;
         boolean acabouJogo = false;
 
         while (!acabouJogo) {
         	
+        	System.out.print("\nCaracteres utilizados: ");
+        	for(String caracter: caracteresRepetidos) {
+        		System.out.print(caracter + " ");
+        	}
+        	
         	System.out.printf("\nVocê tem %d tentativas", tentativas);
+        	
         	
             for (int i = 0; i < 6; i++) {
                 System.out.println();
@@ -45,7 +57,7 @@ public class Jogo {
             }
             
             System.out.print("\nInsira um chute: ");
-            String chuteString = sc.nextLine().toLowerCase();
+            String chuteString = sc.next().toLowerCase();
             char chute = chuteString.charAt(0);
             
             if (palavra.contains(String.valueOf(chute))) {
@@ -55,6 +67,22 @@ public class Jogo {
                     }
                 }
             } else {
+            	for (int i = 0; i < caracteresRepetidos.length; i++) {
+					if(caracteresRepetidos[i].equals("")) {
+						boolean achou = false; 
+						for (int j = 0; j < caracteresRepetidos.length; j++) {
+							if(caracteresRepetidos[j].equals(String.valueOf(chute))) {
+								achou = true;
+								System.out.print("\nCaracter já utilizado, tente outro.");
+								break;
+							}
+						}
+						if(!achou) {							
+							caracteresRepetidos[i] = String.valueOf(chute);
+						}
+						break;
+					}
+				}
             	tentativas--;
             }
             
